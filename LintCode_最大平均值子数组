@@ -1,0 +1,81 @@
+class Solution {
+/***
+  Ｏ(N^2)算法，不过TLE了,题目的Tag为二分,所以应该需要一个O(nlogn的算法)
+  简单解释是下下面的吧.实际就是简单的遍历所有可能性,当然先要计算sum数组才能得到O(N^2)的时间复杂度
+**/
+public:
+    /**
+     * @param nums an array with positive and negative numbers
+     * @param k an integer
+     * @return the maximum average
+     */
+    double maxAverage(vector<int>& nums, int k) {
+        // Write your code here
+        int size = nums.size();
+        vector<long> sum(size+1);
+        sum[0] = 0;///不要忘记有个0的值
+        for(int i = 0 ; i < size ; ++i){
+            sum[i+1] += nums[i] + sum[i];
+        }//计算sum
+        
+        double res = INT_MIN;
+        
+        for(int i = k ; i <= size ; ++i){//  连续的K个数
+            for(int j = 0 ; j <= size - i ; ++j){
+                double avg = (sum[j + i] - sum[j]) * 1.0 / i;
+                if(avg > res){
+                    res = avg;
+                }
+            }
+        }
+        return res;
+    }
+};
+
+/***
+  利用二分的性质,平均值一定是在最大值和最小值之间的
+  我们第一次取mid,然后传入二分查找中,每次二分进行一次for循环求得数组是否有-mid后仍然>0的sum(&&i>=k),如果有,证明这个mid太大了,需要减少
+  如果没有,mid太小了,需要增大,注意,在i+1>=k后,我们需要更新min值,具体为什么 没想明白
+**/
+
+class Solution {
+public:
+    /**
+     * @param nums an array with positive and negative numbers
+     * @param k an integer
+     * @return the maximum average
+     */
+    double maxAverage(vector<int>& nums, int k) {
+        // Write your code here
+        double minVal = INT_MAX,maxVal = INT_MIN;
+        for(int i = 0 ; i < nums.size() ; ++i){
+            if(nums[i] < minVal)
+                minVal = nums[i];
+            if(nums[i] > maxVal)
+                maxVal = nums[i];
+        }//计算最小值与最大值,均值一定在这最小值最大值中
+        
+        while(maxVal - minVal >= 1e-6){
+            double mid = minVal + ((maxVal - minVal) / 2) ;//运算符优先级应该没有错吧
+            if(binarySearch(nums,k,mid))
+                minVal = mid;
+            else
+                maxVal = mid;
+        }
+        return maxVal;
+    }
+    
+    bool binarySearch(vector<int>&nums , int &k , double mid){
+        vector<double> sum (nums.size()+1);
+        sum[0] = 0;
+        double minVal = 0;
+        for(int i = 0 ; i < nums.size() ; ++i){
+            sum[i+1] = sum[i] + nums[i] - mid;
+            if(i+1 >= k && sum[i+1] >= minVal)
+                return true;
+            else if(i+1 >= k)
+                minVal = min(minVal,sum[i+2-k]); //给下一步,所以是i+1+1
+        }
+        return false;
+    }
+};
