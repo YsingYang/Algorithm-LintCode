@@ -1,0 +1,23 @@
+class Solution {
+public:
+    /**
+     * @param nums: A list of integers
+     * @return: The majority number
+     */
+    int majorityNumber(vector<int> nums) {
+        // write your code here
+        int candidata = nums[0] , count = 1;
+        for(int i = 1 ; i < nums.size() ; ++i){
+            
+            if(candidata != nums[i]){
+                if(--count <= -1){
+                    candidata = nums[i];
+                    count = 1;
+                }
+                continue;
+            }
+            ++count;
+        }
+        return candidata;
+    }
+};
