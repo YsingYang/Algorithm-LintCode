@@ -1,0 +1,51 @@
+//Solution-1 , 其实有点想多了 ,不需要用到二维数组
+class Solution {
+public:
+    /**
+     * @param nums an integer array and all positive numbers, no duplicates
+     * @param target an integer
+     * @return an integer
+     */
+    int backPackVI(vector<int>& nums, int target) {
+        // Write your code here
+        vector<int> dp(target + 1 , 0);
+        int size = nums.size();
+        dp[0] = 1;
+        for(int  i = 0 ; i < target ; ++i){//循环次数
+            vector<int> tmp(target + 1 , 0);
+            tmp[0] = 1;
+            for(int j = 0 ; j < nums.size() ; ++j){
+                for(int k = 1 ; k <= target ; ++k){
+                    if(k - nums[j] >= 0){
+                        tmp[k] += dp[k-nums[j]];
+                    }
+                }
+            }
+            swap(tmp,dp);
+        }
+        return dp[target];
+    }
+};
+
+//Solution-2 ,直接两个for循环就可以解决了
+class Solution {
+public:
+    /**
+     * @param nums an integer array and all positive numbers, no duplicates
+     * @param target an integer
+     * @return an integer
+     */
+    int backPackVI(vector<int>& nums, int target) {
+        // Write your code here
+        vector<int> dp(target + 1,0);
+        dp[0] = 1;
+        for(int i = 1 ; i <= target ; ++i){
+            for(int j = 0 ; j < nums.size() ; ++j){
+                if(i >= nums[j]){
+                    dp[i] += dp[i - nums[j]];
+                }
+            }
+        }
+        return dp[target];
+    }
+};
