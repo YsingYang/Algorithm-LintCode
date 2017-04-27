@@ -1,0 +1,42 @@
+class Solution {
+/***
+  由于我们每个物品只能放入一个,所以我们如果不用dp[i-1] -> dp[i]的状态转移方程
+  我们就需要从后往前遍历数组,这样就不会得到重复序列
+  
+  用bitset是一个非常好的优化方法,但是LintCode 没有include<bitset>,
+
+***/
+public:
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A: Given n items with size A[i]
+     * @return: The maximum size
+     */
+    int backPack(int m, vector<int> A) {
+        // write your code here
+        vector<bool> dp(m + 1,0);
+        dp[0] = 1;
+        int res = 0,rear = m;
+        for(int i = 0 ; i < A.size() ; ++i){
+            bool flag = true;
+            for(int j = min(m,rear + A[i]); j >= 1 ; --j){
+                if(j - A[i] >=0 && dp[j - A[i]]){
+                    if(flag){
+                        rear = j;
+                        flag = false;
+                    }
+                    dp[j] = true;
+                    res = max(res,j);
+                }
+            }
+        }
+        return res;
+    }
+};
+
+//Bitset Solution
+
+    bitset<numSize + 1> dp(1);
+    for(auto n : nums){
+        dp |= dp << n;
+    }
