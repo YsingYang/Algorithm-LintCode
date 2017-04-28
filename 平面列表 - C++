@@ -1,0 +1,59 @@
+class Solution {
+#define nestedList List
+vector<int> res;
+public:
+    // @param nestedList a list of NestedInteger
+    // @return a list of integer
+    vector<int> flatten(vector<NestedInteger> &nestedList) {
+        // Write your code here
+        recursive(nestedList);
+        return res;
+    }
+    
+    void recursive(vector<NestedInteger> &nestedList){
+        for(int i = 0 ; i < nestedList.size() ; ++i){
+            if(List[i].isInteger())
+                res.push_back(List[i].getInteger());
+            else{
+                vector<NestedInteger> tmp = List[i].getList();
+                recursive(tmp);
+            }
+        }    
+    }
+};
+
+/**
+  如果不用栈需要尽可能的减少拷贝赋值操作,否则会一直TLE
+  class Solution {
+#define nestedList List
+public:
+    // @param nestedList a list of NestedInteger
+    // @return a list of integer
+    vector<int> flatten(vector<NestedInteger> &nestedList) {
+        // Write your code here
+        stack<pair<vector<NestedInteger>,int>> st;
+        vector<int> res;
+        int index = 0;
+        while(!st.empty() || index != List.size()){
+            if(index == List.size()){
+                //List = move(st.top().first);
+                swap(List,st.top().first);
+                index = st.top().second;
+                st.pop();
+                continue;
+            }
+            if(List[index].isInteger()){
+                res.push_back(List[index].getInteger());
+                 ++index;
+            }
+            else{
+                st.emplace(List,index+1);//pair.second表示下一个的起始点
+                vector<NestedInteger> tmp = move(List[index].getList());
+                swap(List,tmp);
+                index = 0;
+            }
+        }
+        return res;
+    }
+};
+*/
