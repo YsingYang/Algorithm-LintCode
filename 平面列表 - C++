@@ -57,3 +57,38 @@ public:
     }
 };
 */
+///非递归情况要注意执行拷贝构造函数的次数，只要尽可能减少拷贝构造函数的次数，那么就可以得到比较好的Runtime
+class Solution {
+#define nestedList List
+public:
+    // @param nestedList a list of NestedInteger
+    // @return a list of integer
+    using NL = NestedInteger;
+    vector<int> flatten(vector<NestedInteger> &nestedList) {
+        // Write your code here
+        stack<NL> st;
+        vector<int> res;
+        getList(List,st);
+        while(!st.empty()){
+            NL tmp = move(st.top()); //这里用move runtime缩小了接近一半
+            st.pop();
+            if(tmp.isInteger()){
+                res.push_back(tmp.getInteger());
+            }
+            else{
+                vector<NL> next = tmp.getList(); 
+                // 这里tmp.getList()返回的是一个引用，所以返回值并不会执行一次拷贝构造
+                getList(next,st);
+            }
+        }
+        reverse(res.begin(),res.end());
+        return res;
+        
+    }
+    
+    void getList(const vector<NL> &List , stack<NL>&st){
+        for(int i = 0 ; i < List.size() ; ++i){
+            st.push(List[i]);
+        }
+    }
+};
