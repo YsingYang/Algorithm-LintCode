@@ -1,0 +1,18 @@
+class Solution {
+public:
+    /**
+     * @param str: a string
+     * @param offset: an integer
+     * @return: nothing
+     */
+    void rotateString(string &str,int offset){
+        //wirte your code here
+        if(str.empty())
+            return ;
+        int size = str.size();
+        offset %= size;
+        string first = str.substr(0,size - offset);
+        string second = str.substr(size - offset);
+        str = second + first;
+    }
+};
