@@ -1,0 +1,47 @@
+//C++优先队列方法
+class Solution {
+public:
+    /*
+     * @param n an integer
+     * @return the nth prime number as description.
+     */
+    int nthUglyNumber(int n) {
+        // write your code here
+        set<long> mp;
+        mp.insert(1);
+        while(1){
+            --n;
+            long less = *mp.begin();
+            if(n == 0)
+                return less;
+            mp.erase(less);
+            mp.insert(less * 2);
+            mp.insert(less * 3);
+            mp.insert(less * 5);
+        }
+        
+    }
+};
+
+//Python DP Solution
+class Solution:
+    """
+    @param {int} n an integer.
+    @return {int} the nth prime number as description.
+    """
+    def nthUglyNumber(self, n):
+        # write your code here
+        dp = [1]
+        i1 , i2 , i3 = 0 , 0 , 0
+        for i in range(1,n):
+            next = min(dp[i1] * 2,min(dp[i2] * 3 , dp[i3] * 5))
+            if not (next % 2) :
+                i1 += 1
+            if not (next % 3) :
+                i2 += 1
+            if not (next % 5) :
+                i3 += 1
+            dp.append(next)
+        return dp.pop()
+            
+
