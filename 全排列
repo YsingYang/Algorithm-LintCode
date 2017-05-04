@@ -1,0 +1,28 @@
+class Solution {
+public:
+    /**
+     * @param nums: A list of integers.
+     * @return: A list of permutations.
+     */
+    vector<vector<int> > permute(vector<int> nums) {
+        // write your code here};
+        if(nums.empty())
+            return {{}};
+        vector<vector<int>> res;
+        permutation(nums,res,0);
+        return res;
+    }
+    
+    void permutation(vector<int> &nums,vector<vector<int>> &res,int index){
+        if(index >= nums.size()-1){
+            res.push_back(nums);
+            return ;
+        }
+        for(int i = index ; i < nums.size() ; ++i){ // 起始点要为index,因为要从即使即交换,也要作为下一个的起始点
+            swap(nums[i],nums[index]);
+            permutation(nums, res, index + 1);
+            swap(nums[i],nums[index]);
+        }
+    }
+};
+
