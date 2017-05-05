@@ -49,3 +49,19 @@ public:
         }
     }
 };
+
+
+//from heapq import heapify, heappop
+
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        heapify(nums)
+        for i in range(len(nums) - k) :
+            heappop(nums)
+        return heappop(nums)
+        
