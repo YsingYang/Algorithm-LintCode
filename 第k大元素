@@ -65,3 +65,23 @@ class Solution(object):
             heappop(nums)
         return heappop(nums)
         
+
+
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        pivot = nums[0]
+        left = [i for i in nums if i < pivot]
+        equal = [i for i in  nums if i == pivot]
+        right = [i for i in  nums if i > pivot]
+        
+        if k <= len(right):
+            return self.findKthLargest(right, k)
+        elif k - len(right) <= len(equal):
+            return equal[0]
+        else:
+            return self.findKthLargest(left, k - len(right) - len(equal))
