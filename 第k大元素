@@ -68,6 +68,7 @@ class Solution(object):
 
 
 class Solution(object):
+# very very slow!
     def findKthLargest(self, nums, k):
         """
         :type nums: List[int]
