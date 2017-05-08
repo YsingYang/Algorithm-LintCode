@@ -1,0 +1,38 @@
+class Solution {
+public:
+    /**
+     * @param head: The first node of linked list.
+     * @return: The new head of reversed linked list.
+     */
+    ListNode *reverse(ListNode *head) {
+        // write your code here
+        if(!head)
+            return nullptr;
+        ListNode* dummy = new ListNode(0), *next = head -> next;
+        
+        while(head){
+            head -> next = dummy ->next;
+            dummy -> next = head;
+            head = next;
+            if(next)
+                next = next ->next;
+        }
+        return dummy ->next;
+    }
+};
+
+
+class Solution(object):
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        dummy = ListNode(0)
+        cur = head
+        while cur :
+            head = head.next
+            cur.next = dummy.next
+            dummy.next = cur
+            cur = head
+        return dummy.next
