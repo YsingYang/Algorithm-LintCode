@@ -1,0 +1,47 @@
+class Solution {
+/***
+  基本的backtracking的题目,不过有几个地方需要特别注意一下
+  在于backtrack时什么时候直接return -1 , 什么时候只需要continue
+  1. 当 num == 0 时 我们需要直接return -1, 因为0可能会与后面的数字结合,导致错误的答案,
+  2. mp.find(num) ==mp.end()时不需要直接return ,只需要continue ,
+
+**/
+public:
+    /**
+     * @param n an integer
+     * @param str a string with number from 1-n in 
+     *            random order and miss one number
+     * @return an integer
+     */
+    int findMissing2(int n, string& str) {
+        // Write your code here
+        unordered_set<int> mp;
+        for(int i = 1 ; i <= n ;++i){
+            mp.insert(i);
+        }
+        return backtrack(str, n, mp, 0, 0);
+    }
+    
+    int backtrack(const string& str, const int &max, unordered_set<int> &mp, int index, int count){
+        if(count == max - 1){
+            //cout<<endl;
+            return index == str.size() ? *mp.begin() : -1;
+        }
+        //当只有一个的情况,注意取出的num不能超过范围
+        for(int i = 1 ; i <= 2; ++i){
+            int num = stoi(str.substr(index, i));
+            if(num == 0)
+                return -1;
+            if(num > max || mp.find(num) == mp.end())
+                continue;
+            mp.erase(num);
+            //cout<<num<< "  ";
+            int res = backtrack(str, max, mp, index + i, count + 1);
+            if(res != -1)
+                return res;
+            mp.insert(num);
+        }
+        //cout<<endl;
+        return -1;
+    }
+};
