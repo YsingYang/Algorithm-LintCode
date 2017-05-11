@@ -1,0 +1,21 @@
+class Solution {
+public:
+    /**
+     * @param nums1 an integer array
+     * @param nums2 an integer array
+     * @return an integer array
+     */
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        // Write your code here
+
+        unordered_set<int> mp(nums1.begin(), nums1.end());
+        unordered_set<int> travel;
+        for(auto i : nums2){
+            if(mp.find(i) != mp.end()){
+                travel.insert(i);
+            }
+        }
+        vector<int> res(travel.begin(), travel.end());
+        return res;
+    }
+};
