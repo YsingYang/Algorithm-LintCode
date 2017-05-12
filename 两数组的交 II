@@ -1,0 +1,40 @@
+class Solution {
+public:
+    /**
+     * @param nums1 an integer array
+     * @param nums2 an integer array
+     * @return an integer array
+     */
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        // Write your code here
+        unordered_map<int,int> mp;
+        for(auto it : nums1){
+            ++mp[it];
+        }
+        vector<int> res;
+        for(auto it : nums2)
+            if(mp.find(it) != mp.end() && mp[it] > 0){
+                res.push_back(it);
+                --mp[it];
+            }
+        return res;
+    }
+};
+
+class Solution:
+    # @param {int[]} nums1 an integer array
+    # @param {int[]} nums2 an integer array
+    # @return {int[]} an integer array
+    def intersection(self, nums1, nums2):
+        # Write your code here
+        from collections import Counter
+        mp = Counter()
+        for i in nums1:
+            mp[i] += 1
+        
+        res = []
+        for i in nums2:
+            if i in mp and mp[i] > 0:
+                res.append(i)
+                mp[i] -= 1
+        return res
