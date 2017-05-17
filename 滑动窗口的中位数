@@ -1,0 +1,34 @@
+class Solution {
+/**
+  相对于leetcode上的题, 要求偶数k输出的是 size/2 -1 的数, 故这里需要改几个地方
+  1. auto pos = next(windows.begin(), (k - 1>>1) + (k % 1));//先提前找到mid的位置。'
+  2.             if(pos == windows.find(nums[i-k]))
+                --pos;
+**/
+public:
+    vector<int> medianSlidingWindow(vector<int>& nums, int k) {
+        multiset<int> windows(nums.begin(), min(nums.end(), nums.begin() + k));
+        vector<int> res;
+        if(k == 0)
+            return res;
+        auto pos = next(windows.begin(), (k - 1>>1) + (k % 1));//先提前找到mid的位置。'
+        //for(auto i : windows)
+            
+        for(int i = k; ; ++i){
+            res.push_back(*pos);
+            if(i == nums.size())
+                break;
+            windows.insert(nums[i]);
+            if(nums[i] < res.back()){
+                --pos;
+            }
+            if(nums[i - k] <= res.back()){
+                ++pos;
+            }
+            if(pos == windows.find(nums[i-k]))
+                --pos;
+            windows.erase(windows.find(nums[i - k]));
+        }
+        return  res;
+    }
+};
