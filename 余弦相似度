@@ -1,0 +1,23 @@
+class Solution {
+public:
+    /**
+     * @param A: An integer array.
+     * @param B: An integer array.
+     * @return: Cosine similarity.
+     */
+    double cosineSimilarity(vector<int> A, vector<int> B) {
+        // write your code here
+        int numerator = 0;
+        int DenominatorA = 0, DenominatorB = 0;
+        for(int i = 0; i < A.size(); ++i){
+            numerator += A[i] * B[i];
+            DenominatorA += pow(A[i], 2);
+            DenominatorB += pow(B[i], 2);
+        }
+        if(DenominatorA == 0 || DenominatorB == 0) {
+            return 2.0;
+        }
+        return (double)(numerator * 1.0 / (sqrt(DenominatorA) * sqrt(DenominatorB)));
+        
+    }
+};
