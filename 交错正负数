@@ -22,7 +22,10 @@ public:
         for(int i = 0; i < A.size(); ++i){
             pair<int,int> *pos = ((i + flag) % 2 ? &ppos : &npos);
             for(int j = pos->first; j < A.size(); ++j){
-                if((pos->second == 1 && A[j] > 0) || (pos->second == -1 && A[j] < 0)){
+                if((pos->second == 1 && A[j] > 0) || (pos->second == -1 && A[j] < 0)){ 
+                
+                //if(((pos->second ^ A[j]) >= 0)){改成这样更好
+                
                     swap(A[j++], A[i]);
                     pos->first = j;
                     break;
