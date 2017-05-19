@@ -1,0 +1,20 @@
+class Solution {
+public:
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    int maxProfit(vector<int> &prices) {
+        // write your code here
+        int size = prices.size();
+        if(prices.empty())
+            return 0;
+        int buy = prices[0];
+        int res = 0;
+        for(int i = 0; i < size; ++i){
+            res = max(res, prices[i] - buy);
+            buy = min(prices[i], buy);
+        }
+        return res;
+    }
+};
