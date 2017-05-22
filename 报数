@@ -1,0 +1,26 @@
+class Solution {
+public:
+    /**
+     * @param n the nth
+     * @return the nth sequence
+     */
+    string countAndSay(int n) {
+        // Write your code here
+        string res = "1";
+        for(int i = 1; i < n; ++i){
+            string next;
+            int j = 0, count;
+            while(j < res.size()){
+                count = 0;
+                char c = res[j];
+                while(j < res.size() && c == res[j]){
+                    ++j;
+                    ++count;
+                }
+                next += to_string(count) + c;
+            }
+            swap(next, res);
+        }
+        return res;
+    }
+};
