@@ -1,0 +1,33 @@
+class Solution {
+/**
+  递归找到最大值后, 回来再算根节点的最大值
+
+**/
+public:
+    /**
+     *@param A: a list of integer
+     *@return: The root of Segment Tree
+     */
+    SegmentTreeNode * build(vector<int>& A) {
+        // write your code here
+        int start = 0, end = A.size() - 1;
+        return segBuild(A, start, end);
+        
+    }
+    
+    SegmentTreeNode * segBuild(const vector<int> &A, int start, int end){
+        if(start > end){
+            return nullptr;
+        }
+        int mid = start + (end - start >> 1);
+        SegmentTreeNode* root = new SegmentTreeNode(start, end, A[mid]);
+        if(start == end)
+            return root;
+        root -> left = segBuild(A, start, mid);
+        root -> right = segBuild(A, mid + 1, end);
+        int leftVal = root->left == nullptr ? 0 : root -> left -> max;
+        int rightVal = root->right == nullptr ? 0 : root -> right -> max;
+        root -> max = max(leftVal, rightVal);
+        return root;
+    }
+};
