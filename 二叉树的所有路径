@@ -1,0 +1,30 @@
+class Solution {
+public:
+    /**
+     * @param root the root of the binary tree
+     * @return all root-to-leaf paths
+     */
+    vector<string> binaryTreePaths(TreeNode* root) {
+        // Write your code here
+        vector<string> res;
+        string str;
+        search(res, str, root);
+        return res;
+        
+    }
+    
+    void search(vector<string> &res, string str, TreeNode *root){
+        if(!root)
+            return;
+        str += to_string(root->val) + "->";
+        if(!root->left && !root->right){
+            str.erase(str.end() - 2, str.end());
+            res.push_back(str);
+            return;
+        }
+        search(res, str, root->left);
+        search(res, str, root->right);
+        return;
+        
+    }
+};
