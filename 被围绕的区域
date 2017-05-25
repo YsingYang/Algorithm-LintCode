@@ -1,0 +1,55 @@
+class Solution {
+public:
+    /**
+     * @param board a 2D board containing 'X' and 'O'
+     * @return void
+     */
+    void surroundedRegions(vector<vector<char>>& board) {
+        // Write your code here
+        if(board.empty())
+            return;
+        rs = board.size(), cs = board[0].size();
+        vector<vector<bool>> visited(rs,vector<bool>(cs, false));
+        for(int i = 0; i < rs; ++i){
+            if(board[i][0] == 'O' && visited[i][0] == false){
+                DFS(board, visited, i, 0);
+            }
+            if(board[i][cs-1] == 'O' && visited[i][cs-1] == false){
+                DFS(board, visited, i, cs-1);
+            }
+        }
+        for(int i = 0; i < cs; ++i){
+            if(board[0][i] == 'O' && visited[0][i] == false){
+                DFS(board, visited, 0, i);
+            }
+            if(board[rs-1][i] == 'O' && visited[rs-1][i] == false){
+                DFS(board, visited, rs-1, i);
+            }
+        }
+        for(int i = 0; i < rs; ++i){
+            for(int j = 0; j < cs; ++j){
+                if(board[i][j] == 'O')
+                    board[i][j] = 'X';
+                    
+                else if(board[i][j] == '1')
+                    board[i][j] = 'O';
+                    
+            }
+        }
+    }
+private:
+    void DFS(vector<vector<char>>& board, vector<vector<bool>> &visited, int rIndex, int cIndex){
+        //cout<<rIndex<<"  "<<cIndex<<endl;
+        visited[rIndex][cIndex] = true;
+        board[rIndex][cIndex] = '1';
+        for(int i = 0; i < direction.size(); ++i){
+            int nx = rIndex + direction[i][0];
+            int ny = cIndex + direction[i][1];
+            if(nx < 0 || nx >= rs || ny < 0 || ny >= cs || visited[nx][ny] || board[nx][ny] == 'X')
+                continue;
+            DFS(board, visited, nx, ny);
+        }
+    }
+    int rs, cs;
+    vector<vector<int>> direction = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+};
