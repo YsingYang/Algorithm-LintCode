@@ -1,0 +1,42 @@
+struct bucket{
+    bool isUsed = false;
+    int minVal = numeric_limits<int>::max();
+    int maxVal = numeric_limits<int>::min();
+};
+
+class Solution {
+public:
+    /**
+     * @param nums: a vector of integers
+     * @return: the maximum difference
+     */
+    int maximumGap(vector<int> nums) {
+        //桶排序
+        if(nums.size() < 2){
+            return 0;
+        }
+        
+        int minNum = *min_element(nums.begin(), nums.end());
+        int maxNum = *max_element(nums.begin(), nums.end());
+        
+        int bucketGap = max(1, (maxNum - minNum) / ((int)nums.size() - 1));//避免出现为Gap为０的尴尬
+        int bucketSize = (maxNum - minNum) / (bucketGap) + 1;//为什么加1,小学生数学题!
+        vector<bucket> Bucket(bucketSize);
+        for(auto&& num : nums){
+            int bucketIndex = (num - minNum) / bucketGap;
+            Bucket[bucketIndex].isUsed = true;
+            Bucket[bucketIndex].minVal = min(Bucket[bucketIndex].minVal, num);
+            Bucket[bucketIndex].maxVal = max(Bucket[bucketIndex].maxVal, num);
+        }
+        int preNum = minNum, res = 0;
+        for(auto&& bucket : Bucket){
+            if(bucket.isUsed == false)
+                continue;
+            //cout<<bucket.minVal<<"   "<<bucket.maxVal<<endl;
+            res = max(res, bucket.minVal - preNum);
+            preNum = bucket.maxVal;
+        }
+        return res;
+        
+    }
+};
