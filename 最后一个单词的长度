@@ -1,0 +1,26 @@
+class Solution {
+public:
+    /**
+     * @param s A string
+     * @return the length of last word
+     */
+    int lengthOfLastWord(string& s) {
+        // Write your code here
+        int rear = s.find_last_not_of(' ');
+        int front = s.find_last_of(' ', rear);
+        return rear - front;
+    }
+};
+
+//Python 正则表达式
+class Solution:
+    # @param {string} s A string
+    # @return {int} the length of last word
+    def lengthOfLastWord(self, s):
+        # Write your code here
+        import re
+        s = s.rstrip()
+        res = re.split(r'[\s]+', s)
+        if len(res) == 0 :
+            return 0
+        return len(res[-1])
