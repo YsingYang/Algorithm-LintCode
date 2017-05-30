@@ -1,0 +1,22 @@
+class Solution {
+public:
+    /**
+     * @param s a string which consists of lowercase or uppercase letters
+     * @return the length of the longest palindromes that can be built
+     */
+    int longestPalindrome(string& s) {
+        // Write your code here
+        vector<int> mp(128, 0);
+        int odd = 0;
+        for(auto &&c : s){
+            if( ++mp[c] & 1){
+                ++odd;
+            }
+            else{
+                --odd;
+            }
+        }
+        return odd == 0 ? s.size() : s.size() - odd + 1;
+    }
+    
+};
