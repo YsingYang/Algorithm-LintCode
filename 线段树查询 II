@@ -1,0 +1,32 @@
+class Solution {
+/***
+
+  注意case中会出现end > root->end的情况, 我觉得这应该在进入SeqmentTree前就应该做判断
+
+***/
+public:
+    /**
+     *@param root, start, end: The root of segment tree and 
+     *                         an segment / interval
+     *@return: The count number in the interval [start, end] 
+     */
+    int query(SegmentTreeNode *root, int start, int end) {
+        // write your code here
+        if(!root)
+            return 0;
+        end = min(end, root -> end);
+        if(start == root -> start && end == root -> end){ // 这里可能有错?
+            return root->count;
+        }
+        int mid = root->start + (root->end - root->start >> 1);
+        if(mid >= end){
+            return query(root->left, start, end);
+        }
+        else if(mid < start){
+            return query(root->right, start, end);
+        }
+        else{
+            return query(root->left, start, mid) + query(root->right, mid + 1, end);
+        }
+    }
+};
