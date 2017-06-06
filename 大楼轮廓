@@ -1,0 +1,45 @@
+class Solution {
+public:
+    /**
+     * @param buildings: A list of lists of integers
+     * @return: Find the outline of those buildings
+     */
+    vector<vector<int> > buildingOutline(vector<vector<int> > &buildings) {
+        vector<pair<int, int>> vec;
+        for(auto &v : buildings){
+            vec.emplace_back(v[0], -v[2]);
+            vec.emplace_back(v[1], v[2]);
+        }//按照起始点为pair<idx, -hight> , 终点为pair<idx, hight>插入到vector中
+        
+        
+        sort(vec.begin(), vec.end(), [](const pair<int, int> &p1, const pair<int, int>& p2){
+            if(p1.first == p2.first)
+                return p1.second < p2.second; //若相等, 先插入新的, 再erase旧的
+            return p1.first < p2.first;
+        });//对vec按照idx从小到大进行排序
+        
+        
+        vector<vector<int>> res;
+        int preHest = 0, preIndex = -1;
+        multiset<int> heap = {0};
+        for(auto &v : vec){
+            //cout<<v.first<<"    "<<v.second<<endl;
+            if(v.second < 0){
+                heap.insert(-v.second);
+            }
+            else{
+                heap.erase(heap.find(v.second));
+            }
+            int hight = *heap.rbegin();
+            if(preHest != hight){
+                if(preHest != 0){
+                    res.emplace_back(vector<int>({preIndex, v.first, preHest}));
+                }
+                preHest = hight;
+                preIndex = v.first;
+            }
+           
+        }
+        return res;
+    }
+};
