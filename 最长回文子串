@@ -1,0 +1,30 @@
+class Solution {
+public:
+    /**
+     * @param s input string
+     * @return the longest palindromic substring
+     */
+    string longestPalindrome(string& s) {
+        // Write your code here
+        int front = 0, size = s.size();
+        int length = 0, index = 0;
+        string res;
+        while(front < size){
+            int rear = front + 1;
+            while(s[rear] == s[front]){
+                ++rear;
+            }
+            int begin = front - 1, end = rear;
+            while(begin >= 0 && end < size && s[begin] == s[end]){
+                --begin;
+                ++end;
+            }
+            if(end - begin - 1 > length){ 
+                length = end - begin - 1;
+                index = begin + 1;
+            }
+            front = rear;
+        }
+        return s.substr(index, length);
+    }
+};
