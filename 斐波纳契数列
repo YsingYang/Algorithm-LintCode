@@ -1,0 +1,44 @@
+/// 懒得用矩阵方法做了= = 
+class Solution{
+public:
+    /**
+     * @param n: an integer
+     * @return an integer f(n)
+     */
+    int fibonacci(int n) {
+        // write your code here
+        vector<int> dp(n);
+        dp[0] = 0; dp[1] = 1;
+        for(int i = 2; i < n; ++i){
+            dp[i] = dp[i-2] + dp[i-1];
+        }
+        return dp[n-1];
+    }
+};
+
+
+//static 方法, 当数据量较大的时候, 这个方法应该会比上个方法快很多
+class Solution{
+public:
+    /**
+     * @param n: an integer
+     * @return an integer f(n)
+     */
+    int fibonacci(int n) {
+        // write your code here
+        int size = dp.size();
+        if(n > dp.size()){
+            dp.resize(n);
+            if(dp[1] != 1){
+                dp[1] = 1;//原先的size < 1
+            }
+            for(int i = max(size, 2); i < n; ++i){
+                dp[i] = dp[i-1] + dp[i-2];
+            }
+        }
+        return dp[n-1];
+    }
+    static vector<int> dp;
+};
+
+vector<int> Solution::dp = vector<int>();
