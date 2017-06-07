@@ -42,3 +42,20 @@ public:
 };
 
 vector<int> Solution::dp = vector<int>();
+
+
+#Python Solution generator
+
+class Solution:
+    # @param n: an integer
+    # @return an integer f(n)
+    def generator(self, n):
+        a, b, i = 1, 0, 0
+        while i < n:
+            yield b
+            a, b = a + b, a
+            i += 1
+    
+    def fibonacci(self, n):
+        # write your code here
+        return list(self.generator(n))[-1]
