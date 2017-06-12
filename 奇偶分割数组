@@ -1,0 +1,34 @@
+class Solution {
+public:
+    /**
+     * @param nums: a vector of integers
+     * @return: nothing
+     */
+    void partitionArray(vector<int> &nums) {
+        // write your code here
+        stable_partition(nums.begin(), nums.end(), [](const int &rhs){
+           return rhs & 1; 
+        });
+    }
+};
+
+class Solution {
+public:
+    /**
+     * @param nums: a vector of integers
+     * @return: nothing
+     */
+    void partitionArray(vector<int> &nums) {
+        // write your code here
+        int front = 0, rear = nums.size() - 1;
+        while(front < rear){
+            while(front < rear && (nums[front] & 1))
+                ++front;
+            while(front < rear && !(nums[rear] & 1))
+                --rear;
+            if(front < rear)
+                swap(nums[front++], nums[rear--]);
+                
+        }
+    }
+};
