@@ -1,0 +1,35 @@
+class Solution {
+public:
+    /**
+     * @param values: a vector of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    bool firstWillWin(vector<int> &values) {
+        // write your code here
+        size = values.size();
+        vector<int> dp(size, -1);
+        int sum = accumulate(values.begin(), values.end(), 0);
+        return 2 * getMaxValues(values, dp, 0) > sum;
+    }
+    
+    int getMaxValues(vector<int> &values, vector<int>&dp, int idx){
+        if(dp[idx] != -1)
+            return dp[idx];
+        if(idx >= size)
+            return 0;
+        if(idx == size-1){
+            dp[idx] = values[size-1];
+            return dp[idx];
+        }
+        int maxPlus1 = getMaxValues(values, dp, idx + 2); //假设下一个玩家拿了idx+1, 取剩下的
+        int maxPlus2 = getMaxValues(values, dp, idx + 3); //假设下一个拿idx+1, idx+2 , 取剩下最大的
+        int maxPlus3 = getMaxValues(values, dp, idx + 4); //假设下一个拿idx+2, idx +3, 取剩下最大的
+        dp[idx] = max(values[idx] + min(maxPlus1, maxPlus2), values[idx] + values[idx+1] + min(maxPlus2, maxPlus3));
+        return dp[idx];
+    }
+    
+    
+    
+private:
+    int size;
+};
