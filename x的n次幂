@@ -16,7 +16,7 @@ public:
         
         int flag = x > 0 ? 1 : -1, nflag = n > 0 ? 1 : -1;
         double subResult = myPow(x, abs(n) >> 1);
-        double result = flag * subResult * subResult * ((n & 1) ? x : 1);
+        double result = flag * subResult * subResult * ((n & 1) ? x : 1); //这里虽然不知道是为啥, 但是 n&1的优先级是低于?的
         return nflag > 0 ? result : 1 / result;
     }
 };
