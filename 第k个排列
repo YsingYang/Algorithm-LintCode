@@ -1,0 +1,34 @@
+class Solution {
+public:
+    /**
+      * @param n: n
+      * @param k: the kth permutation
+      * @return: return the k-th permutation
+      */
+    string getPermutation(int n, int k) {
+        set<string> mp;
+        for(int i = 1; i <= n; ++i)
+            mp.insert(to_string(i));
+        return get(mp, n, k-1);
+    }
+    
+    string get(set<string>& mp, int n, int k){
+        if(n == 1)
+            return *mp.begin();
+        int count = factorial(n-1);
+        auto it = next(mp.begin(), k / count);
+        string c = *it;
+        mp.erase(c);
+        return c + get(mp, n-1, k % count);
+        
+    }
+    
+    int factorial(int k){
+        if(k <= 0)
+            return 0;
+        if(k == 1)
+            return 1;
+        return k * factorial(k-1);
+    }
+       
+};
