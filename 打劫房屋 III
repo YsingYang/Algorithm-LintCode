@@ -1,0 +1,53 @@
+class Solution {
+public:
+    /**
+     * @param root: The root of binary tree.
+     * @return: The maximum amount of money you can rob tonight
+     */
+    int houseRobber3(TreeNode* root) {
+        // write your code here
+        int left(0), right(0);
+        return tryRob(root, left, right);
+    }
+    
+    int tryRob(TreeNode* root, int& left, int& right){
+        if(!root)
+            return 0;
+        int ll(0), lr(0), rl(0), rr(0);
+        left = tryRob(root->left, ll, lr);
+        right = tryRob(root->right, rl, rr);
+        return max(left + right, root->val + ll + lr + rr + rl);
+    }
+};
+
+///开始没有使用相应的引用导致了TLE ,不过也正常, 其中计算了许多重复的问题. 
+那么我们可以加上子问题的引用, 使得避免过多的重复计算(上述), 不过讲道理, 加上个map应该也是可行的
+
+//下述是TLE的答案
+
+
+class Solution {
+public:
+    /**
+     * @param root: The root of binary tree.
+     * @return: The maximum amount of money you can rob tonight
+     */
+    int houseRobber3(TreeNode* root) {
+        // write your code here
+        if(!root)
+            return 0;
+        int left = root->left ? houseRobber3(root->left) : 0;
+        int ll = 0, lr = 0;
+        if(root->left){
+            ll = houseRobber3(root->left->left);
+            lr = houseRobber3(root->left->right);
+        }
+        int right = 0, rl = 0, rr = 0;
+        if(root->right){
+            right = houseRobber3(root->right);
+            rl = houseRobber3(root->right->left);
+            rr = houseRobber3(root->right->right);
+        }
+        return max(root->val + ll + lr + rr + rl, left + right);
+    }
+};
