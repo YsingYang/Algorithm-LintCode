@@ -1,0 +1,20 @@
+class Solution {
+public:
+    /**
+     * @param num an integer
+     * @return true if num is an ugly number or false
+     */
+    bool isUgly(int num) {
+        // Write your code here
+        //虽然说这样写有点丑...不过感觉组成一个vector的话行数也差不多
+        if(num <= 0)
+            return false;
+        while(num % 5 == 0)
+            num /= 5;
+        while(num % 3 == 0)
+            num /= 3;
+        while(num % 2 == 0)
+            num /= 2;
+        return num == 1;
+    }
+};
