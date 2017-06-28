@@ -1,0 +1,18 @@
+class Solution {
+public:
+    /**
+     * @param costs n x 3 cost matrix
+     * @return an integer, the minimum cost to paint all houses
+     */
+    int minCost(vector<vector<int>>& costs) {
+        // Write your code here
+        int size = costs.size();
+        vector<vector<int>> dp(size + 1, vector<int>(3));
+        for(int i = 1; i <= size; ++i){
+            dp[i][0] = min(dp[i-1][1], dp[i-1][2]) + costs[i-1][0];//这次染红 
+            dp[i][1] = min(dp[i-1][0], dp[i-1][2]) + costs[i-1][1]; //这次染蓝
+            dp[i][2] = min(dp[i-1][0], dp[i-1][1]) + costs[i-1][2]; //这次染绿
+        }
+        return min(dp[size][0], min(dp[size][1], dp[size][2]));
+    }
+};
