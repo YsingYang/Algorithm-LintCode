@@ -1,0 +1,28 @@
+class Solution {
+public:
+    /**
+     * @param nums: The integer array
+     * @return: The length of LIS (longest increasing subsequence)
+     */
+    int longestIncreasingSubsequence(vector<int> nums) {
+        // write your code here
+        vector<int> dp;
+        int res = 0;
+        for(int i = 0; i < nums.size(); ++i){
+            if(dp.empty() || nums[i] > dp.back()){
+                dp.push_back(nums[i]);
+            }
+            else{
+                int idx = dp.size() - 1;
+                while(idx > 0){
+                    if(nums[i] >= dp[idx - 1]){
+                        break;
+                    }
+                    --idx;
+                }
+                dp[idx] = nums[i];
+            }
+        }
+        return dp.size();
+    }
+};
