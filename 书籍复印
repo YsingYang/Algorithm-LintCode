@@ -1,0 +1,50 @@
+/**************************
+
+讲道理..这道题不就是LeetCode上的410. Split Array Largest Sum, 换了个题目...
+其本质是一样的, 都是将数组分成k份, 使得k份的和尽可能得接近. 这里用的是二分的方法. 具体可以看LeetCode那边的解析
+
+**************************/
+
+class Solution {
+public:
+    /**
+     * @param pages: a vector of integers
+     * @param k: an integer
+     * @return: an integer
+     */
+    int copyBooks(vector<int> &pages, int k) {
+        // write your code here
+        int left = 0, right = 0;
+        for(auto &num : pages){
+            left = max(left, num);
+            right += num;
+        }
+        while(left < right){
+            int mid = left + (right - left >> 1);
+            if(binarySearch(pages, k - 1, mid)) //如果可行, right = mid.
+                right = mid;
+            else
+                left = mid + 1; //如果不可行, (总和太小), left = mid + 1
+        }
+        return left;
+    }
+    
+    
+    bool binarySearch(const vector<int>& nums, int cuts, int max){
+        int sum = 0;
+        for(auto &num : nums){
+            if(num > max)
+                return false; //这句可以删掉, 最大值在第一次已经被选出来了
+            if(sum + num <= max){
+                sum += num;
+            }
+            else{
+                sum = num;
+                if(--cuts < 0){
+                    return false; //剪短数 < 0 但数组还没遍历完, 总和过于小
+                }
+            }
+        }
+        return true;
+    }
+};
