@@ -1,0 +1,35 @@
+class Solution {
+public:
+    /**
+     这里我只在第一个值出现的时候push到unordered_map中， 
+     因为之后的值并没有必要插入了， 如果一样直接continue, 不一样return false即可， 没有必要继续
+     */
+    bool isIsomorphic(string& s, string& t) {
+        // Write your code here
+        unordered_map<char, vector<int>> mps, mpt;
+        for(int i = 0; i < s.size(); ++i){
+            auto it1 = mps.find(s[i]), it2 =  mpt.find(t[i]);
+            if(it1 == mps.end() && it2 == mpt.end()){
+                mps[s[i]].push_back(i);
+                mpt[t[i]].push_back(i);
+                continue;
+            }
+            else if(it1 == mps.end() || it2 == mpt.end()){
+                return false;
+            }
+            else{
+                int idx = 0;
+                int s1 = it1->second.size(), s2 = it2->second.size();
+                while(idx < s1 && idx < s2){
+                    if(it1->second[idx] != it2->second[idx]){
+                        return false;
+                    }
+                    ++idx;
+                }
+                if(idx != s1 && idx != s2)
+                    return false;
+            }
+        }
+        return true;
+    }
+};
