@@ -1,0 +1,61 @@
+class Trie{
+    public:
+        Trie() : isEnd(false), next(26, nullptr){}
+        void add(string word){
+            Trie* root = this;
+            for(int i = 0; i < word.size(); ++i){
+                if(root -> next[word[i] - 'a'] == nullptr){
+                    root -> next[word[i] - 'a'] = new Trie();
+                }
+                root = root->next[word[i] - 'a'];
+            }
+            root->isEnd = true;
+        }
+        
+        bool search(const string& word, int idx){
+            Trie* root = this;
+            if(idx == word.size()){
+                return isEnd; //递归出口
+            }
+            
+            if(word[idx] !='.' && next[word[idx] - 'a'] == nullptr){
+                return false;
+            }
+            
+            if(word[idx] != '.'){
+                return next[word[idx]-'a']->search(word, idx + 1); //注意这里是调用next[]->search， 而不是调用自身的
+            }
+            else{
+                for(int i = 0; i < 26; ++i){
+                    if(next[i] != nullptr && next[i]->search(word, idx + 1)){//注意这里是调用next[]->search， 而不是调用自身的
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        
+    private:
+        vector<Trie*> next;
+        bool isEnd;
+};
+
+class WordDictionary {
+public:
+    WordDictionary() : trie(new Trie()) {}
+    
+    // Adds a word into the data structure.
+    void addWord(string word) {
+        // Write your code here
+        trie->add(word);
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    bool search(string word) {
+        // Write your code here
+        return trie->search(word, 0);
+    }
+private:
+    Trie* trie;
+};
