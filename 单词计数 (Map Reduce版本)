@@ -1,0 +1,34 @@
+class WordCountMapper: public Mapper {
+public:
+    void Map(Input<string>* input) {
+        // Write your code here
+        // Please directly use func 'output' to 
+        // output the results into output buffer.
+        // void output(string &key, int value);
+        while(!input->done()){ //当当前仍有元素的时候继续循环
+            istringstream ss(input->value());
+            string temp;
+            while(getline(ss, temp, ' ')){ //以空格划分
+                output(temp, 1); //将单词传递给Reduce
+            }
+            input->next();
+        }
+    }
+};
+
+
+class WordCountReducer: public Reducer {
+public:
+    void Reduce(string &key, Input<int>* input) {
+        // Write your code here
+        // Please directly use func 'output' to 
+        // output the results into output buffer.
+        // void output(string &key, int value);
+        int sum = 0;
+        while(!input->done()){
+            sum += input->value();
+            input->next();
+        }
+        output(key, sum);
+    }
+};
